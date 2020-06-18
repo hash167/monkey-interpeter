@@ -25,6 +25,29 @@ Monkey has the following features:
 
 ## Lexer
 
+The lexer will take our source code as input and tokenize it.
+
+Token data structure
+
+```go
+type struct Token {
+    Type TokenType // Eg token.EQ
+    Literal string // '=='
+}
+```
+
+Lexer datastructure
+
+```go
+type Lexer struct {
+    input        string
+    position     int  // points to current char
+    readPosition int  // after current char
+    ch           byte // current char under examination
+}
+```
+
+`NextToken()` is the most important function of the lexer. It returns the next identifed token from the input source
 
 ## Parser
 

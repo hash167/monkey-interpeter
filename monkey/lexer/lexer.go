@@ -108,6 +108,7 @@ func (l *Lexer) skipWhitespace() {
 	}
 }
 
+// readIdentifier advances the position and returns the slice of input containing the identifier
 func (l *Lexer) readIdentifier() string {
 	position := l.position
 	for isLetter(l.ch) {
