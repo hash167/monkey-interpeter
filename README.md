@@ -73,7 +73,50 @@ For Monkey programming language, expressions produce values and statements do no
 
 Overall structure of program so far
 
-![](./static/ast_basic.png 'Title')
+![Basic Structure](./static/ast_basic.png 'Title')
 
 ### recursive-descent parsing
+
+Top down operator precedence or Pratt Parsing
+
+Invented as an alternate to context free grammers and the Backus_Nauer_Form
+
+Instead of associating parsing functions with grammer rules, Pratt associated parsing functions(sematic code) with single token types. Each token type can have two parsing functions associated with it depending on the token's position(infix or prefix)
+
+
+### Expressions in Monkey
+
+Everything in monkey is an expression besides the  `let` and `return` statements.
+
+Expressions have the following operators
+
+1. Prefix operators(Eg -5, !5)
+1. Infix or binary operators(Eg 5 + 5)
+1. Comparison operators(Eg 5 == 5)
+
+- We can also use paranthesis to group expressions and influence the order of evaluation.
+
+Eg (5 + 5) or ((5 + 5) * 5)
+
+- call expressions Eg max(5 + add(5 + 5))
+- Functions in monkey are first class citizens
+- function literals are expressions
+- We can use the the let statement to bind functions to names
+- `let add = fn(x, y) { return x + y };` The function literal is the just the expression in the statement
+
+Implementation of the Pratt Parser
+
+- Associtation of parsing functions with token types
+- When this token type is encountered, the parsing functions are called to parse the appropriate expression and return an AST node that represents it
+- Each token type can have upto 2 parsing functions associated with it, depending on whether the token was found in a prefix or an infix position
+
+```go
+// parser/parser.go
+type (
+prefixParseFn func() ast.Expression
+infixParseFn func(ast.Expression) ast.Expression
+)
+```
+
+Identifiers are the first expression we will try to parse
 
