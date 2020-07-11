@@ -23,6 +23,15 @@ Monkey has the following features:
 - an array data structure
 - a hash data structure
 
+## golang
+
+### Testing
+
+We are using a table driven testing approach because
+
+- Setup code for the tests are the same, so we are avoiding a lot of duplication
+- Logic behind the test assertions are the same
+
 ## Lexer
 
 The lexer will take our source code as input and tokenize it.
