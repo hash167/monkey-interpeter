@@ -127,5 +127,38 @@ infixParseFn func(ast.Expression) ast.Expression
 )
 ```
 
-Identifiers are the first expression we will try to parse
+When the parser is created with `New`, we register prefix and infix functions. When we parse the expression, depending on the next token, we determine if its a prefix or infix expression and do the operations accordingly
+
+```go
+p.registerPrefix(token.IDENT, p.parseIdentifier)
+p.registerPrefix(token.INT, p.parseIntegerLiteral)
+p.registerPrefix(token.BANG, p.parsePrefixExpression)
+p.registerPrefix(token.MINUS, p.parsePrefixExpression)
+```
+
+```go
+p.infixParseFns = make(map[token.TokenType]infixParseFn)
+p.registerInfix(token.PLUS, p.parseInfixExpression)
+p.registerInfix(token.MINUS, p.parseInfixExpression)
+p.registerInfix(token.SLASH, p.parseInfixExpression)
+p.registerInfix(token.ASTERISK, p.parseInfixExpression)
+p.registerInfix(token.EQ, p.parseInfixExpression)
+p.registerInfix(token.NOT_EQ, p.parseInfixExpression)
+p.registerInfix(token.LT, p.parseInfixExpression)
+p.registerInfix(token.GT, p.parseInfixExpression)
+```
+
+### Pratt Parser details
+
+Lets look at an expression
+
+`1 + 2 + 3`
+
+This expression needs to be represented as an AST, and the nodes nested accordingly. We need an AST serialized as a string
+
+`((1 + 2) + 3)`
+
+Below is the diagram representation
+
+![AST of ((1 + 2) + 3)](./static/ast.png 'Title')
 
